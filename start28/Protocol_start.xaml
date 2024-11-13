@@ -9,10 +9,11 @@
     <Grid>
         <StackPanel>
             <TextBlock Text="Время Старта:" Margin="0,0,0,5"/>
-            <TextBox Name="Time_Start" Margin="0,0,0,10"/>
+            <DatePicker Name="Time_Start" Margin="0,0,0,10"/>
 
             <TextBlock Text="Дистанция:" Margin="0,0,0,5"/>
             <TextBox Name="Distance" Margin="0,0,0,10"/>
+            <Button Content="Подтвердить" Click="Start_Click" Width="120"/>
         </StackPanel>
     </Grid>
 </Window>

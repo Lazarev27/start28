@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Annotations;
+
 
 namespace start28
 {
@@ -23,5 +25,16 @@ namespace start28
         {
             InitializeComponent();
         }
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            DateTime starttime = (DateTime)Time_Start.SelectedDate;
+            Start_Protocol Start_ProtocolEntity = new Start_Protocol
+            {
+                Time_start = starttime,
+                distance = Distance.Text.Trim(),
+            };
+        }
+
     }
 }
+   
