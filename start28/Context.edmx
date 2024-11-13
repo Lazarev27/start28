@@ -4,7 +4,19 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище StartModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Хранилище StartModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "Start.dbo.data" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="data">
+          <Key>
+            <PropertyRef Name="Start_Protocol_id" />
+            <PropertyRef Name="Participants_id" />
+            <PropertyRef Name="Finish_Procotol_id" />
+          </Key>
+          <Property Name="Start_Protocol_id" Type="int" Nullable="false" />
+          <Property Name="Participants_id" Type="int" Nullable="false" />
+          <Property Name="Finish_Procotol_id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Finish_Protocol">
           <Key>
             <PropertyRef Name="id" />
@@ -19,12 +31,13 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="BirthDate" Type="date" Nullable="false" />
           <Property Name="TeamName" Type="varchar" MaxLength="100" />
-          <Property Name="Category" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Start_Protocol">
           <Key>
@@ -35,27 +48,49 @@
           <Property Name="Time_start" Type="datetime" Nullable="false" />
           <Property Name="distance" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Finish_Pr__Parti__3B75D760">
-          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
-          <End Role="Finish_Protocol" Type="Self.Finish_Protocol" Multiplicity="*" />
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_data_Finish_Protocol">
+          <End Role="Finish_Protocol" Type="Self.Finish_Protocol" Multiplicity="1" />
+          <End Role="data" Type="Self.data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Finish_Protocol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="data">
+              <PropertyRef Name="Finish_Procotol_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_data_Participants">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="1" />
+          <End Role="data" Type="Self.data" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Participants">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Finish_Protocol">
+            <Dependent Role="data">
               <PropertyRef Name="Participants_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Start_Pro__Parti__38996AB5">
-          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
-          <End Role="Start_Protocol" Type="Self.Start_Protocol" Multiplicity="*" />
+        <Association Name="FK_data_Start_Protocol">
+          <End Role="Start_Protocol" Type="Self.Start_Protocol" Multiplicity="1" />
+          <End Role="data" Type="Self.data" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Participants">
+            <Principal Role="Start_Protocol">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="Start_Protocol">
-              <PropertyRef Name="Participants_id" />
+            <Dependent Role="data">
+              <PropertyRef Name="Start_Protocol_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -63,17 +98,28 @@
           <EntitySet Name="Finish_Protocol" EntityType="Self.Finish_Protocol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Start_Protocol" EntityType="Self.Start_Protocol" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Finish_Pr__Parti__3B75D760" Association="Self.FK__Finish_Pr__Parti__3B75D760">
-            <End Role="Participants" EntitySet="Participants" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="data" EntityType="Self.data" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [data].[Start_Protocol_id] AS [Start_Protocol_id], 
+    [data].[Participants_id] AS [Participants_id], 
+    [data].[Finish_Procotol_id] AS [Finish_Procotol_id]
+    FROM [dbo].[data] AS [data]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_data_Finish_Protocol" Association="Self.FK_data_Finish_Protocol">
             <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
+            <End Role="data" EntitySet="data" />
           </AssociationSet>
-          <AssociationSet Name="FK__Start_Pro__Parti__38996AB5" Association="Self.FK__Start_Pro__Parti__38996AB5">
+          <AssociationSet Name="FK_data_Participants" Association="Self.FK_data_Participants">
             <End Role="Participants" EntitySet="Participants" />
+            <End Role="data" EntitySet="data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_data_Start_Protocol" Association="Self.FK_data_Start_Protocol">
             <End Role="Start_Protocol" EntitySet="Start_Protocol" />
+            <End Role="data" EntitySet="data" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -86,7 +132,7 @@
           <Property Name="Time_finish" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="distance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Participants" Relationship="Self.FK__Finish_Pr__Parti__3B75D760" FromRole="Finish_Protocol" ToRole="Participants" />
+          <NavigationProperty Name="data" Relationship="StartModel.FK_data_Finish_Protocol" FromRole="Finish_Protocol" ToRole="data" />
         </EntityType>
         <EntityType Name="Participants">
           <Key>
@@ -97,9 +143,9 @@
           <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Finish_Protocol" Relationship="Self.FK__Finish_Pr__Parti__3B75D760" FromRole="Participants" ToRole="Finish_Protocol" />
-          <NavigationProperty Name="Start_Protocol" Relationship="Self.FK__Start_Pro__Parti__38996AB5" FromRole="Participants" ToRole="Start_Protocol" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="data" Relationship="StartModel.FK_data_Participants" FromRole="Participants" ToRole="data" />
         </EntityType>
         <EntityType Name="Start_Protocol">
           <Key>
@@ -109,45 +155,86 @@
           <Property Name="Participants_id" Type="Int32" />
           <Property Name="Time_start" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="distance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Participants" Relationship="Self.FK__Start_Pro__Parti__38996AB5" FromRole="Start_Protocol" ToRole="Participants" />
+          <NavigationProperty Name="data" Relationship="StartModel.FK_data_Start_Protocol" FromRole="Start_Protocol" ToRole="data" />
         </EntityType>
-        <Association Name="FK__Finish_Pr__Parti__3B75D760">
-          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
-          <End Role="Finish_Protocol" Type="Self.Finish_Protocol" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Participants">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Finish_Protocol">
-              <PropertyRef Name="Participants_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Start_Pro__Parti__38996AB5">
-          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
-          <End Role="Start_Protocol" Type="Self.Start_Protocol" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Participants">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="Start_Protocol">
-              <PropertyRef Name="Participants_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Context" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Finish_Protocol" EntityType="Self.Finish_Protocol" />
           <EntitySet Name="Participants" EntityType="Self.Participants" />
           <EntitySet Name="Start_Protocol" EntityType="Self.Start_Protocol" />
-          <AssociationSet Name="FK__Finish_Pr__Parti__3B75D760" Association="Self.FK__Finish_Pr__Parti__3B75D760">
-            <End Role="Participants" EntitySet="Participants" />
+          <EntitySet Name="sysdiagrams" EntityType="StartModel.sysdiagrams" />
+          <EntitySet Name="data" EntityType="StartModel.data" />
+          <AssociationSet Name="FK_data_Finish_Protocol" Association="StartModel.FK_data_Finish_Protocol">
             <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
+            <End Role="data" EntitySet="data" />
           </AssociationSet>
-          <AssociationSet Name="FK__Start_Pro__Parti__38996AB5" Association="Self.FK__Start_Pro__Parti__38996AB5">
+          <AssociationSet Name="FK_data_Participants" Association="StartModel.FK_data_Participants">
             <End Role="Participants" EntitySet="Participants" />
+            <End Role="data" EntitySet="data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_data_Start_Protocol" Association="StartModel.FK_data_Start_Protocol">
             <End Role="Start_Protocol" EntitySet="Start_Protocol" />
+            <End Role="data" EntitySet="data" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="data">
+          <Key>
+            <PropertyRef Name="Start_Protocol_id" />
+            <PropertyRef Name="Participants_id" />
+            <PropertyRef Name="Finish_Procotol_id" />
+          </Key>
+          <Property Name="Start_Protocol_id" Type="Int32" Nullable="false" />
+          <Property Name="Participants_id" Type="Int32" Nullable="false" />
+          <Property Name="Finish_Procotol_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Finish_Protocol" Relationship="StartModel.FK_data_Finish_Protocol" FromRole="data" ToRole="Finish_Protocol" />
+          <NavigationProperty Name="Participants" Relationship="StartModel.FK_data_Participants" FromRole="data" ToRole="Participants" />
+          <NavigationProperty Name="Start_Protocol" Relationship="StartModel.FK_data_Start_Protocol" FromRole="data" ToRole="Start_Protocol" />
+        </EntityType>
+        <Association Name="FK_data_Finish_Protocol">
+          <End Type="StartModel.Finish_Protocol" Role="Finish_Protocol" Multiplicity="1" />
+          <End Type="StartModel.data" Role="data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Finish_Protocol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="data">
+              <PropertyRef Name="Finish_Procotol_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_data_Participants">
+          <End Type="StartModel.Participants" Role="Participants" Multiplicity="1" />
+          <End Type="StartModel.data" Role="data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="data">
+              <PropertyRef Name="Participants_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_data_Start_Protocol">
+          <End Type="StartModel.Start_Protocol" Role="Start_Protocol" Multiplicity="1" />
+          <End Type="StartModel.data" Role="data" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Start_Protocol">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="data">
+              <PropertyRef Name="Start_Protocol_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -168,12 +255,13 @@
           <EntitySetMapping Name="Participants">
             <EntityTypeMapping TypeName="StartModel.Participants">
               <MappingFragment StoreEntitySet="Participants">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
                 <ScalarProperty Name="TeamName" ColumnName="TeamName" />
-                <ScalarProperty Name="Category" ColumnName="Category" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -184,6 +272,26 @@
                 <ScalarProperty Name="Participants_id" ColumnName="Participants_id" />
                 <ScalarProperty Name="Time_start" ColumnName="Time_start" />
                 <ScalarProperty Name="distance" ColumnName="distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StartModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="data">
+            <EntityTypeMapping TypeName="StartModel.data">
+              <MappingFragment StoreEntitySet="data">
+                <ScalarProperty Name="Finish_Procotol_id" ColumnName="Finish_Procotol_id" />
+                <ScalarProperty Name="Participants_id" ColumnName="Participants_id" />
+                <ScalarProperty Name="Start_Protocol_id" ColumnName="Start_Protocol_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -28,5 +28,7 @@ namespace start28
         public virtual DbSet<Finish_Protocol> Finish_Protocol { get; set; }
         public virtual DbSet<Participants> Participants { get; set; }
         public virtual DbSet<Start_Protocol> Start_Protocol { get; set; }
+        public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public virtual DbSet<data> data { get; set; }
     }
 }

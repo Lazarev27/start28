@@ -17,8 +17,7 @@ namespace start28
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Participants()
         {
-            this.Finish_Protocol = new HashSet<Finish_Protocol>();
-            this.Start_Protocol = new HashSet<Start_Protocol>();
+            this.data = new HashSet<data>();
         }
     
         public int id { get; set; }
@@ -26,11 +25,10 @@ namespace start28
         public string LastName { get; set; }
         public System.DateTime BirthDate { get; set; }
         public string TeamName { get; set; }
-        public string Category { get; set; }
+        public string Login { get; set; }
+        public string Password { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Finish_Protocol> Finish_Protocol { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Start_Protocol> Start_Protocol { get; set; }
+        public virtual ICollection<data> data { get; set; }
     }
 }

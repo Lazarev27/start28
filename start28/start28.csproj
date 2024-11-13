@@ -69,15 +69,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="data.cs">
+      <DependentUpon>Context.tt</DependentUpon>
+    </Compile>
     <Compile Include="Finish_Protocol.cs">
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
     <Compile Include="Participants.cs">
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Protocol_start.xaml.cs">
+      <DependentUpon>Protocol_start.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Start_Protocol.cs">
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>Context.tt</DependentUpon>
+    </Compile>
+    <Page Include="Protocol_start.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RegistrationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

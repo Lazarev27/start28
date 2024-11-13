@@ -12,20 +12,14 @@ namespace start28
     using System;
     using System.Collections.Generic;
     
-    public partial class Start_Protocol
+    public partial class data
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Start_Protocol()
-        {
-            this.data = new HashSet<data>();
-        }
+        public int Start_Protocol_id { get; set; }
+        public int Participants_id { get; set; }
+        public int Finish_Procotol_id { get; set; }
     
-        public int id { get; set; }
-        public Nullable<int> Participants_id { get; set; }
-        public System.DateTime Time_start { get; set; }
-        public string distance { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<data> data { get; set; }
+        public virtual Finish_Protocol Finish_Protocol { get; set; }
+        public virtual Participants Participants { get; set; }
+        public virtual Start_Protocol Start_Protocol { get; set; }
     }
 }

@@ -12,20 +12,12 @@ namespace start28
     using System;
     using System.Collections.Generic;
     
-    public partial class Start_Protocol
+    public partial class sysdiagrams
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Start_Protocol()
-        {
-            this.data = new HashSet<data>();
-        }
-    
-        public int id { get; set; }
-        public Nullable<int> Participants_id { get; set; }
-        public System.DateTime Time_start { get; set; }
-        public string distance { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<data> data { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

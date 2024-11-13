@@ -14,12 +14,19 @@ namespace start28
     
     public partial class Finish_Protocol
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Finish_Protocol()
+        {
+            this.data = new HashSet<data>();
+        }
+    
         public int id { get; set; }
         public Nullable<int> Participants_id { get; set; }
         public System.DateTime Time_finish { get; set; }
         public string distance { get; set; }
         public string Position { get; set; }
     
-        public virtual Participants Participants { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<data> data { get; set; }
     }
 }
