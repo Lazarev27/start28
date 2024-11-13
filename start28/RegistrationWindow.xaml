@@ -24,7 +24,6 @@
             <TextBox Name="TeamNameTextBox" Margin="0,0,0,10"/>
 
             <Button Content="Зарегистрироваться" Click="RegisterButton_Click" Width="120"/>
-            <Button Content="Next" Click="ButtonOpenProtocol_start_Click" Width="50" Margin="220,20,0,0" />
         </StackPanel>
     </Grid>
 </Window>

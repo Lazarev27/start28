@@ -40,12 +40,6 @@ namespace start28
             }
         }
  
-        private void ButtonOpenProtocol_start_Click(object sender, RoutedEventArgs e)
-        {
-            Protocol_start Protocol_start = new Protocol_start(); // Создаем экземпляр второго окна
-            Protocol_start.Show(); // Открываем второе окно
-            this.Close();
-        }
         public void UserExistsAsync(Participants participants)
         {
 
@@ -68,6 +62,9 @@ namespace start28
                         context.Participants.Add(participants);
                         context.SaveChanges();
                         MessageBox.Show("Пользователь успешно добавлен.");
+                        Protocol_start Protocol_start = new Protocol_start(); // Создаем экземпляр второго окна
+                        Protocol_start.Show(); // Открываем второе окно
+                        this.Close();
                     }
                 }
             }
