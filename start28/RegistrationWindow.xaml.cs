@@ -12,6 +12,7 @@ namespace start28
         public RegistrationWindow()
         {
             InitializeComponent();
+            
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -38,6 +39,7 @@ namespace start28
                 return;
             }
         }
+ 
         private void ButtonOpenProtocol_start_Click(object sender, RoutedEventArgs e)
         {
             Protocol_start Protocol_start = new Protocol_start(); // Создаем экземпляр второго окна
