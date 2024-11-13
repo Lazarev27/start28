@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище StartModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Finish_Protocol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Participants_id" Type="int" />
+          <Property Name="Time_finish" Type="datetime" Nullable="false" />
+          <Property Name="distance" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Participants">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="BirthDate" Type="date" Nullable="false" />
+          <Property Name="TeamName" Type="varchar" MaxLength="100" />
+          <Property Name="Category" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Start_Protocol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="Participants_id" Type="int" />
+          <Property Name="Time_start" Type="datetime" Nullable="false" />
+          <Property Name="distance" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Finish_Pr__Parti__3B75D760">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+          <End Role="Finish_Protocol" Type="Self.Finish_Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Finish_Protocol">
+              <PropertyRef Name="Participants_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Start_Pro__Parti__38996AB5">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+          <End Role="Start_Protocol" Type="Self.Start_Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Start_Protocol">
+              <PropertyRef Name="Participants_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище StartModelContainer">
+          <EntitySet Name="Finish_Protocol" EntityType="Self.Finish_Protocol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Start_Protocol" EntityType="Self.Start_Protocol" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Finish_Pr__Parti__3B75D760" Association="Self.FK__Finish_Pr__Parti__3B75D760">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Start_Pro__Parti__38996AB5" Association="Self.FK__Start_Pro__Parti__38996AB5">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="Start_Protocol" EntitySet="Start_Protocol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Finish_Protocol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Participants_id" Type="Int32" />
+          <Property Name="Time_finish" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="distance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Participants" Relationship="Self.FK__Finish_Pr__Parti__3B75D760" FromRole="Finish_Protocol" ToRole="Participants" />
+        </EntityType>
+        <EntityType Name="Participants">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Finish_Protocol" Relationship="Self.FK__Finish_Pr__Parti__3B75D760" FromRole="Participants" ToRole="Finish_Protocol" />
+          <NavigationProperty Name="Start_Protocol" Relationship="Self.FK__Start_Pro__Parti__38996AB5" FromRole="Participants" ToRole="Start_Protocol" />
+        </EntityType>
+        <EntityType Name="Start_Protocol">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Participants_id" Type="Int32" />
+          <Property Name="Time_start" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="distance" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Participants" Relationship="Self.FK__Start_Pro__Parti__38996AB5" FromRole="Start_Protocol" ToRole="Participants" />
+        </EntityType>
+        <Association Name="FK__Finish_Pr__Parti__3B75D760">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+          <End Role="Finish_Protocol" Type="Self.Finish_Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Finish_Protocol">
+              <PropertyRef Name="Participants_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Start_Pro__Parti__38996AB5">
+          <End Role="Participants" Type="Self.Participants" Multiplicity="0..1" />
+          <End Role="Start_Protocol" Type="Self.Start_Protocol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Participants">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Start_Protocol">
+              <PropertyRef Name="Participants_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Finish_Protocol" EntityType="Self.Finish_Protocol" />
+          <EntitySet Name="Participants" EntityType="Self.Participants" />
+          <EntitySet Name="Start_Protocol" EntityType="Self.Start_Protocol" />
+          <AssociationSet Name="FK__Finish_Pr__Parti__3B75D760" Association="Self.FK__Finish_Pr__Parti__3B75D760">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Start_Pro__Parti__38996AB5" Association="Self.FK__Start_Pro__Parti__38996AB5">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="Start_Protocol" EntitySet="Start_Protocol" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище StartModelContainer" CdmEntityContainer="Context">
+          <EntitySetMapping Name="Finish_Protocol">
+            <EntityTypeMapping TypeName="StartModel.Finish_Protocol">
+              <MappingFragment StoreEntitySet="Finish_Protocol">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Participants_id" ColumnName="Participants_id" />
+                <ScalarProperty Name="Time_finish" ColumnName="Time_finish" />
+                <ScalarProperty Name="distance" ColumnName="distance" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="StartModel.Participants">
+              <MappingFragment StoreEntitySet="Participants">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="BirthDate" ColumnName="BirthDate" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Category" ColumnName="Category" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Start_Protocol">
+            <EntityTypeMapping TypeName="StartModel.Start_Protocol">
+              <MappingFragment StoreEntitySet="Start_Protocol">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Participants_id" ColumnName="Participants_id" />
+                <ScalarProperty Name="Time_start" ColumnName="Time_start" />
+                <ScalarProperty Name="distance" ColumnName="distance" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
