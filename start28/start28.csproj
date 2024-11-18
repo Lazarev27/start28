@@ -78,6 +78,9 @@
     <Compile Include="Participants.cs">
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Compile Include="Protocol_finish.xaml.cs">
+      <DependentUpon>Protocol_finish.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Protocol_start.xaml.cs">
       <DependentUpon>Protocol_start.xaml</DependentUpon>
     </Compile>
@@ -87,6 +90,10 @@
     <Compile Include="sysdiagrams.cs">
       <DependentUpon>Context.tt</DependentUpon>
     </Compile>
+    <Page Include="Protocol_finish.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Protocol_start.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

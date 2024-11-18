@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Annotations;
+using System.Runtime.Remoting.Contexts;
 
 
 namespace start28
@@ -33,6 +34,23 @@ namespace start28
                 Time_start = starttime,
                 distance = Distance.Text.Trim(),
             };
+            UserExists(Start_ProtocolEntity);
+            {
+                MessageBox.Show("Пожалуйста, заполните все поля.");
+                return;
+            }
+        }
+        public void UserExists(Start_Protocol start_protocol)
+        {
+            using (var contextS = new Context())
+            {
+             contextS.Start_Protocol.Add(start_protocol);
+             contextS.SaveChanges();
+             MessageBox.Show("Успешно добавлено.");
+             Protocol_finish Protocol_finish = new Protocol_finish(); // Создаем экземпляр второго окна
+             Protocol_finish.Show(); // Открываем второе окно
+             this.Close();
+            }
         }
 
     }
