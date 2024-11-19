@@ -11,23 +11,16 @@ namespace start28
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
-
+    
     public partial class Start_Protocol
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Start_Protocol()
         {
-
             this.data = new HashSet<data>();
         }
-        
-
-
+    
         public int id { get; set; }
-        [Key] // Указывает, что это первичный ключ
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Nullable<int> Participants_id { get; set; }
         public System.DateTime Time_start { get; set; }
         public string distance { get; set; }
