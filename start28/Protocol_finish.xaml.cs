@@ -25,7 +25,8 @@ namespace start28
         }
         private void ProtocolFinish_Click(object sender, RoutedEventArgs e)
         {
-            TimeSpan finishtime = (TimeSpan)FinishTime;
+            DateTime? selectedDate = FinishTime.SelectedDate;
+            TimeSpan finishtime = selectedDate.Value.TimeOfDay;
             Finish_Protocol Finish_ProtocolEntity = new Finish_Protocol
             {
                 Time_finish = finishtime,
@@ -33,6 +34,7 @@ namespace start28
                 Position = decimal.Parse(Position.Text),
             };
             UserExistsF(Finish_ProtocolEntity);
+            if (string.IsNullOrEmpty(DistanceBox.Text) || string.IsNullOrEmpty(Position.Text))
             {
                 MessageBox.Show("Пожалуйста, заполните все поля.");
                 return;
@@ -49,6 +51,21 @@ namespace start28
             }
         }
 
+        private void DistanceBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void Position_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
  

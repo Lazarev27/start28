@@ -11,8 +11,8 @@
             <TextBlock Text="Время Старта:" Margin="0,0,0,5"/>
             <DatePicker Name="Time_Start" Margin="0,0,0,10"/>
 
-            <TextBlock Text="Дистанция:" Margin="0,0,0,5"/>
-            <TextBox Name="Distance" Margin="0,0,0,10"/>
+            <TextBlock Text="Дистанция: (Пишите только число)" Margin="0,0,0,5"/>
+            <TextBox Name="Distance" Margin="0,0,0,10" PreviewTextInput="Distance_PreviewTextInput_1"/>
             <Button Content="Подтвердить" Click="Start_Click" Width="120"/>
         </StackPanel>
     </Grid>

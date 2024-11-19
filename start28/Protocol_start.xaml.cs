@@ -26,6 +26,9 @@ namespace start28
         {
             InitializeComponent();
         }
+        
+
+        
         private void Start_Click(object sender, RoutedEventArgs e)
         {
             DateTime starttime = (DateTime)Time_Start.SelectedDate;
@@ -35,6 +38,7 @@ namespace start28
                 distance = decimal.Parse(Distance.Text),
             };
             UserExists(Start_ProtocolEntity);
+            if (string.IsNullOrEmpty(Distance.Text))
             {
                 MessageBox.Show("Пожалуйста, заполните все поля.");
                 return;
@@ -53,6 +57,13 @@ namespace start28
             }
         }
 
+        private void Distance_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
+        {
+            if (!Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }
    

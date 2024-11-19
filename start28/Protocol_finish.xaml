@@ -12,10 +12,10 @@
             <DatePicker Name="FinishTime" Margin="0,0,0,10"/>
 
             <TextBlock Text="Дистанция:" Margin="0,0,0,5"/>
-            <TextBox Name="DistanceBox" Margin="0,0,0,10"/>
+            <TextBox Name="DistanceBox" Margin="0,0,0,10" PreviewTextInput="DistanceBox_PreviewTextInput"/>
 
             <TextBlock Text="Позиция:" Margin="0,0,0,5"/>
-            <TextBox Name="Position" Margin="0,0,0,10"/>
+            <TextBox Name="Position" Margin="0,0,0,10" PreviewTextInput="Position_PreviewTextInput"/>
             <Button Content="Подтвердить" Click="ProtocolFinish_Click" Width="120"/>
         </StackPanel>
     </Grid>
