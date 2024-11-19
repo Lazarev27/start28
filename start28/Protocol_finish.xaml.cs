@@ -29,7 +29,8 @@ namespace start28
             Finish_Protocol Finish_ProtocolEntity = new Finish_Protocol
             {
                 Time_finish = finishtime,
-                distance = DistanceBox.Text.Trim(),
+                distance = decimal.Parse(DistanceBox.Text),
+                Position = decimal.Parse(Position.Text),
             };
             UserExistsF(Finish_ProtocolEntity);
             {
