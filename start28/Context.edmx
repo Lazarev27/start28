@@ -21,11 +21,11 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Participants_id" Type="int" />
-          <Property Name="Time_finish" Type="datetime" Nullable="false" />
-          <Property Name="distance" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Position" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Time_finish" Type="time" Precision="7" Nullable="false" />
+          <Property Name="distance" Type="numeric" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Position" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="Participants">
           <Key>
@@ -46,7 +46,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Participants_id" Type="int" />
           <Property Name="Time_start" Type="datetime" Nullable="false" />
-          <Property Name="distance" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="distance" Type="numeric" Precision="18" Scale="0" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -155,23 +155,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="StartModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="Context" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Finish_Protocol" EntityType="StartModel.Finish_Protocol" />
-          <EntitySet Name="Participants" EntityType="StartModel.Participants" />
-          <EntitySet Name="Start_Protocol" EntityType="StartModel.Start_Protocol" />
-          <EntitySet Name="sysdiagrams" EntityType="StartModel.sysdiagrams" />
-          <EntitySet Name="data" EntityType="StartModel.data" />
-          <AssociationSet Name="FK_data_Finish_Protocol" Association="StartModel.FK_data_Finish_Protocol">
-            <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
-            <End Role="data" EntitySet="data" />
-          </AssociationSet>
-          <AssociationSet Name="FK_data_Participants" Association="StartModel.FK_data_Participants">
-            <End Role="Participants" EntitySet="Participants" />
-            <End Role="data" EntitySet="data" />
-          </AssociationSet>
-          <AssociationSet Name="FK_data_Start_Protocol" Association="StartModel.FK_data_Start_Protocol">
-            <End Role="Start_Protocol" EntitySet="Start_Protocol" />
-            <End Role="data" EntitySet="data" />
-          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -202,16 +185,33 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-        </EntityContainer>
+          <EntitySet Name="Finish_Protocol" EntityType="StartModel.Finish_Protocol" />
+          <EntitySet Name="Participants" EntityType="StartModel.Participants" />
+          <EntitySet Name="Start_Protocol" EntityType="StartModel.Start_Protocol" />
+          <EntitySet Name="sysdiagrams" EntityType="StartModel.sysdiagrams" />
+          <EntitySet Name="data" EntityType="StartModel.data" />
+          <AssociationSet Name="FK_data_Finish_Protocol" Association="StartModel.FK_data_Finish_Protocol">
+            <End Role="Finish_Protocol" EntitySet="Finish_Protocol" />
+            <End Role="data" EntitySet="data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_data_Participants" Association="StartModel.FK_data_Participants">
+            <End Role="Participants" EntitySet="Participants" />
+            <End Role="data" EntitySet="data" />
+          </AssociationSet>
+          <AssociationSet Name="FK_data_Start_Protocol" Association="StartModel.FK_data_Start_Protocol">
+            <End Role="Start_Protocol" EntitySet="Start_Protocol" />
+            <End Role="data" EntitySet="data" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="Finish_Protocol">
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Participants_id" Type="Int32" />
-          <Property Name="Time_finish" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="distance" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Position" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Time_finish" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="distance" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
+          <Property Name="Position" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="data" Relationship="StartModel.FK_data_Finish_Protocol" FromRole="Finish_Protocol" ToRole="data" />
         </EntityType>
         <EntityType Name="Participants">
@@ -234,7 +234,7 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Participants_id" Type="Int32" />
           <Property Name="Time_start" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="distance" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="distance" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
           <NavigationProperty Name="data" Relationship="StartModel.FK_data_Start_Protocol" FromRole="Start_Protocol" ToRole="data" />
         </EntityType>
         <EntityType Name="sysdiagrams">
@@ -302,6 +302,13 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище StartModelContainer" CdmEntityContainer="Context">
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище StartModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище StartModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище StartModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище StartModel.sp_helpdiagramdefinition" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище StartModel.sp_helpdiagrams" />
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище StartModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище StartModel.sp_upgraddiagrams" />
           <EntitySetMapping Name="Finish_Protocol">
             <EntityTypeMapping TypeName="StartModel.Finish_Protocol">
               <MappingFragment StoreEntitySet="Finish_Protocol">
@@ -356,14 +363,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище StartModel.sp_alterdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище StartModel.sp_creatediagram" />
-          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище StartModel.sp_dropdiagram" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище StartModel.sp_helpdiagramdefinition" />
-          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище StartModel.sp_helpdiagrams" />
-          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище StartModel.sp_renamediagram" />
-          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище StartModel.sp_upgraddiagrams" />
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

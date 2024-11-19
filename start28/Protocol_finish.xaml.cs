@@ -25,7 +25,7 @@ namespace start28
         }
         private void ProtocolFinish_Click(object sender, RoutedEventArgs e)
         {
-            DateTime finishtime = (DateTime)FinishTime.SelectedDate;
+            TimeSpan finishtime = (TimeSpan)FinishTime;
             Finish_Protocol Finish_ProtocolEntity = new Finish_Protocol
             {
                 Time_finish = finishtime,

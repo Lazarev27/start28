@@ -22,9 +22,9 @@ namespace start28
     
         public int id { get; set; }
         public Nullable<int> Participants_id { get; set; }
-        public System.DateTime Time_finish { get; set; }
-        public string distance { get; set; }
-        public string Position { get; set; }
+        public System.TimeSpan Time_finish { get; set; }
+        public decimal distance { get; set; }
+        public decimal Position { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<data> data { get; set; }

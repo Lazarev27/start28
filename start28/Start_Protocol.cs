@@ -23,9 +23,14 @@ namespace start28
         public int id { get; set; }
         public Nullable<int> Participants_id { get; set; }
         public System.DateTime Time_start { get; set; }
-        public string distance { get; set; }
+        public int distance { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<data> data { get; set; }
+
+        public static implicit operator Start_Protocol(Start_Protocol v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

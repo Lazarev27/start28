@@ -32,7 +32,7 @@ namespace start28
             Start_Protocol Start_ProtocolEntity = new Start_Protocol
             {
                 Time_start = starttime,
-                distance = Distance.Text.Trim(),
+                distance = decimal.Parse(Distance.Text),
             };
             UserExists(Start_ProtocolEntity);
             {
